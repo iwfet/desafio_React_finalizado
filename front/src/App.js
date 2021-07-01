@@ -5,8 +5,14 @@ import "./App.css"
 
 
 class App extends Component{
-  state = {}
-  
+  state = {
+    salarioBruto: 0,
+    desconto: 0,
+    dependentes:0
+  }
+  handleChange = event => {
+    this.setState({ name: event.target.value });
+  }
   
 async componentDidMount(){
   const reponse = await api.post('/salario',{
@@ -36,6 +42,9 @@ async componentDidMount(){
       </div>
     );
   }
+
+
+  
 }
 
 export default App;
