@@ -5,7 +5,7 @@ import json
 
 @app.route('/',methods=['GET'])
 def home():
-    return render_template('admin/index.html')
+    return {"dado":"ola mundo"}
 
 @app.route('/salario', methods=['POST'])
 def salario():
@@ -43,7 +43,7 @@ def salario():
             reajuste_irrf = 0   
                  
         valor_final = reajuste_inss + reajuste_irrf
-    
+        print(valor_final)
     
     return {"valor final": valor_final, "reajuste_inss":reajuste_inss, "reajuste_irrf": reajuste_irrf}
     #return render_template('admin/index.html', valor=reajuste_inss , valorirrf=reajuste_irrf, valor_fina=valor_final)
