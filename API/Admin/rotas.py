@@ -11,7 +11,7 @@ def home():
 def salario():
     if(request.method =='POST'):
         
-        Salario_bruto = request.json["salario_bruto"]   
+        Salario_bruto = request.json["salario_bruto"]
         Descontos =  request.json["Descontos"]
         Dependentes = request.json["Dependentes"]
         
