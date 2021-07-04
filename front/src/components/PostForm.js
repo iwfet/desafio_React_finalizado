@@ -1,63 +1,87 @@
-import React, { Component } from 'react'
+import React from 'react'
 import api from '../api'
 
 
-class PostForm extends Component{  
-    state ={
-        salario_bruto: 2000,
-        Descontos: 0,
-        Dependentes: 0
-    }
+function PostForm () {  
+    const [data, setData] = React.useState({
     
-
-    handle = e => {
-        this.setState({[e.target.salario_bruto]: e.target.value })
-        
-    }
-
-    handle1 = e =>{
-        this.setState({[e.target.Descontos]: e.target.value})
-    }
-    handle2 = e => {
-        this.setState({[e.target.Dependentes]: e.target.value})
-    }
-
-    submit = e =>{
+    });
+    
+    async function submit (e){
         e.preventDefault();
+        const {salario_bruto,Descontos,Dependentes} = e.target
+        console.log(salario_bruto.value)
+        const dados ={
+            salario_bruto: salario_bruto.value,
+            Descontos: Descontos.value,
+            Dependentes: Dependentes.value
+        }
+        console.log("formulario",dados)
 
-        api.post('/salario',this.state).then(response =>{
-            console.log(response)
-        })
-        console.log(this.state)
-    }
-    render() {
-        const {salario_bruto, Descontos, Dependentes} = this.state
+        try {
+          const  res = await api.post('/salario',dados)
+        console.log("apiRes",res)
+        setData(res.data)  
+        } catch(error){
+            console.log(error)
+        }   
+    }   
+        
      return(
         <div>
-            <form onSubmit={this.submit}>
+            <div>
+               <form onSubmit={submit}>
                 <input
-                onChange={this.handle} 
-                value={salario_bruto} 
+                required                
                 name="salario_bruto"
-                type="number"/>
+                type="number"
+                step=".01"/>
 
                 <input 
-                onChange={this.handle1} 
-                value={Descontos} 
+                required                
                 name="Descontos" 
-                type="number"/>
+                type="number"
+                step=".01"/>
 
                 <input 
-                onChange={this.handle2} 
-                value={Dependentes} 
+                required                
                 name="Dependentes" 
-                type="number"/>
+                type="number"
+                step=".01"/>
 
                 <button type="submit">Calcular</button>
-            </form>
+            </form> 
+            </div>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Salario Bruto</th>
+                            <th>inss</th>
+                            <th>irpf</th>
+                            <th>Descontos</th>
+                            <th>Total a receber </th>
+                        </tr>
+                    </tbody>                   
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>R$</th>
+                            <th>R$</th>
+                            <th>R$</th>
+                            <th>R$</th>
+                            <th>R$</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
+        
+
     )   
-}    
+   
 }
 
 export default PostForm
